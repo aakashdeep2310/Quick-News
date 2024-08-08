@@ -7,11 +7,15 @@ function reload() {
     window.location.reload();
 }
 
-async function fetchNews(query){
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`)
-    const data = await res.json();
-    // console.log(data);
-    bindData(data.articles);
+async function fetchNews(query) {
+    try {
+        const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+        if (!res.ok) throw new Error('Network response was not ok.');
+        const data = await res.json();
+        bindData(data.articles);
+    } catch (error) {
+        console.error('Error fetching news:', error);
+    }
 }
 
 function bindData(articles){
